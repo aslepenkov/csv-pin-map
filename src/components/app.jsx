@@ -17,7 +17,7 @@ import {
   FormControl
 } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../styles/App.css';
+import '../styles/app.css';
 
 class App extends Component {
   state = {
