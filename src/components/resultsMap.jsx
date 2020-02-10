@@ -6,7 +6,7 @@ const ResultsMap = props => {
   if (!pins.length) {
     return <div>csv error/no data</div>;
   }
-
+  console.log(pins);
   return (
     <div>
       {

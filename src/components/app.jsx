@@ -35,12 +35,10 @@ class App extends Component {
     );
   }
   loadItems = (latName, longName) => {
-    console.log('loadItems');
-    console.log('longtitudeColumnName ' + this.state.longtitudeColumnName);
-    console.log('latitudeColumnName ' + this.state.latitudeColumnName);
     const csvData = this.state.file;
     if (csvData[0] === undefined) return;
-
+    latName = latName ?? this.state.latitudeColumnName;
+    longName = longName ?? this.state.longtitudeColumnName;
     const lonIndex = csvData[0].findIndex(i => i === longName);
     const latIndex = csvData[0].findIndex(i => i === latName);
     console.log('lon index:' + lonIndex);
