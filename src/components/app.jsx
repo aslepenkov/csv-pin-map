@@ -1,35 +1,66 @@
 import React, { Component } from 'react';
-import { YMaps, Map, Placemark } from 'react-yandex-maps';
+import { YMaps, Map, Placemark, FullscreenControl } from 'react-yandex-maps';
 import CSVReader from 'react-csv-reader';
-import _ from 'lodash';
 import ResultsMap from './resultsMap';
+import _ from 'lodash';
 import { trackPromise } from 'react-promise-tracker';
+import Draggable from 'react-draggable';
+import {
+  Form,
+  Container,
+  Row,
+  Col,
+  Button,
+  Nav,
+  Navbar,
+  NavDropdown,
+  FormControl
+} from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '../styles/App.css';
 
 class App extends Component {
   state = {
     file: {},
-    longtitudeColumnName: 'gps__longitude',
-    latitudeColumnName: 'gps__latitude',
+    longtitudeColumnName: 'gps_longitude',
+    latitudeColumnName: 'gps_latitude',
     pins: []
   };
 
   render() {
     const { pins } = this.state;
     return (
-      <div>
-        <input
-          type="text"
-          placeholder="latitudeColumnName"
-          id="gps__latitude"
-          onChange={this.onChangeInputY} //north-south
-        />
-        <input
-          type="text"
-          id="gps__longitude"
-          placeholder="longtitudeColumnName"
-          onChange={this.onChangeInputX} // west-east
-        />
-        <CSVReader onFileLoaded={data => this.handleData(data)} />
+      <div className="content">
+        <div className="nav">
+          <Navbar className="bg-light justify-content-between">
+            <Navbar.Brand href="#">CSV-PIN-MAP</Navbar.Brand>
+            <Nav className="mr-auto">
+              <Form inline>
+                <FormControl
+                  type="text"
+                  className="input"
+                  placeholder="Latitude Column name"
+                  id="gps_latitude"
+                  onChange={this.onChangeInputY} //north-south
+                />
+
+                <FormControl
+                  type="text"
+                  className="input"
+                  placeholder="Longtitude Column name"
+                  id="gps_longitude"
+                  onChange={this.onChangeInputX} //south-north
+                />
+              </Form>
+            </Nav>
+            <Form inline>
+              <Button variant="outline-secondary">
+                <CSVReader onFileLoaded={data => this.handleData(data)} />
+              </Button>
+            </Form>
+          </Navbar>
+        </div>
+        <div className="mapOverlay"></div>
         <ResultsMap results={pins} />
       </div>
     );
@@ -71,10 +102,10 @@ class App extends Component {
         file: csvData
       });
       let items = this.loadItems(latName, longName);
-
-      items.map((e, i) => {
-        pins.push(<Placemark key={i} geometry={[e[0], e[1]]} />);
-      });
+      if (items)
+        items.map((e, i) => {
+          pins.push(<Placemark key={i} geometry={[e[0], e[1]]} />);
+        });
       //setTimeout(() => resolve(items), 3000);
       resolve(pins);
     }).then(

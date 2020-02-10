@@ -1,0 +1,35 @@
+html,
+body {
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+}
+
+.mapOverlay {
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-image: url(./world-map-transparent.png);
+    background-size: cover;
+    position: fixed;
+    -webkit-filter: blur(5px);
+    filter: blur(5px);
+    z-index: 0;
+}
+
+.nav {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+}
+
+.mapContainer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    z-index: 2;
+}
